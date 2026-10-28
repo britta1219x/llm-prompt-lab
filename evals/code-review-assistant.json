@@ -1,0 +1,42 @@
+{
+  "prompt": "prompts/code-review-assistant.md",
+  "version": "0.1",
+  "cases": [
+    {
+      "id": "sql-injection",
+      "input": {
+        "code": "def get_user(conn, name):\n    cur = conn.cursor()\n    cur.execute(\"SELECT * FROM users WHERE name = '%s'\" % name)\n    return cur.fetchone()",
+        "context": "Python 3，name 来自 HTTP 请求参数"
+      },
+      "checks": [
+        "指出字符串拼接 SQL 带来的注入风险，并标为最严重问题",
+        "建议改法使用参数化查询，而不是转义或黑名单",
+        "不虚构代码中没有出现的表结构或字段"
+      ]
+    },
+    {
+      "id": "clean-code",
+      "input": {
+        "code": "def clamp(value, low, high):\n    if value < low:\n        return low\n    if value > high:\n        return high\n    return value",
+        "context": "Python 3，工具函数"
+      },
+      "checks": [
+        "明确说明没有明显问题，不为凑数而挑错",
+        "不把命名或格式偏好报为问题",
+        "结论为可以直接合并或等价表述"
+      ]
+    },
+    {
+      "id": "unknown-context",
+      "input": {
+        "code": "cache[key] = compute(key)",
+        "context": ""
+      },
+      "checks": [
+        "指出仅凭这一行无法确认缓存失效、容量上限等问题",
+        "把无法确认的风险列为“需要确认”，而不是直接断言有 bug",
+        "说明需要补充的信息，例如缓存的定义和淘汰策略"
+      ]
+    }
+  ]
+}
