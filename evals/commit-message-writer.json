@@ -1,0 +1,42 @@
+{
+  "prompt": "prompts/commit-message-writer.md",
+  "version": "0.1",
+  "cases": [
+    {
+      "id": "simple-feat",
+      "input": {
+        "changes": "给 procwatch 的 openat 监控增加了对 /etc/sudoers 的访问告警，之前只监控 passwd 和 shadow。",
+        "context": "procwatch，C / eBPF 项目"
+      },
+      "checks": [
+        "标题使用 feat 类型，并带合理 scope 或省略 scope",
+        "subject 不超过 50 个字符且不以句号结尾",
+        "不虚构未提及的文件名或行号"
+      ]
+    },
+    {
+      "id": "mixed-changes",
+      "input": {
+        "changes": "修复了登录页在 Safari 下按钮错位的问题；顺便把 README 的安装步骤重写了；还把 CI 的 Node 版本从 18 升到 20。",
+        "context": "前端项目"
+      },
+      "checks": [
+        "先指出这批改动混杂了三件不相关的事，并建议拆成三个提交",
+        "分别为三组给出 fix、docs、chore 类型的标题",
+        "不把三件事塞进一条提交信息"
+      ]
+    },
+    {
+      "id": "vague-changes",
+      "input": {
+        "changes": "优化了一下，改了些东西。",
+        "context": ""
+      },
+      "checks": [
+        "明确指出信息不足，无法判断 type 和 subject",
+        "列出需要补充的信息，例如改了哪些文件、解决了什么问题",
+        "不硬编一条看似具体的提交信息"
+      ]
+    }
+  ]
+}
